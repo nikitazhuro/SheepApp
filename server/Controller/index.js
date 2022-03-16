@@ -1,22 +1,21 @@
-const axios = require('axios');
-
-let date = new Date();
-date.setDate(date.getDate()-1);
-let YY = date.getFullYear();
-let MM = date.getMonth() + 1;
-let DD = date.getDate();
-
-const url = 'https://www.nbrb.by/api/exrates/rates?periodicity=0'
-let prevDateUrl = `https://www.nbrb.by/api/exrates/rates?ondate=` + YY + `-` + MM + `-` + DD + `&periodicity=0`
+const service = require('../Service/index')
 
 class DataController {
     async getCurrencyData (req, res) {
         try {
-            const response = await axios.get(url)
-            const prevResponse = await axios.get(prevDateUrl)
+            let arr = []
+            const getTodayData = await service.getTodayData()
+
+            for(let i=0; i< getTodayData.length; i++){
+                arr.push(getTodayData[i].Cur_ID)
+            }
+            const getPrevData = await service.getPrevData()
+            const getDynamicData = await service.getDynamicData(arr)
+            
             let groupData = {
-                todayData: response.data,
-                prevData: prevResponse.data
+                todayData: getTodayData,
+                prevData: getPrevData, 
+                dynamicData: getDynamicData
             }
             return res.json(groupData)
         } catch (error) {

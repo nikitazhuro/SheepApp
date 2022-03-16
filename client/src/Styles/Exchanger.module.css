@@ -23,8 +23,15 @@
 }
 .InfoBlock {
   margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
 }
-.InfoBlock_CurrentRate {
+
+.InfoBlock_CurrentRate,
+.InfoBlock_TodayChange {
   display: flex;
   flex-direction: column;
+}
+.Diagram {
+  width: 50%;
 }

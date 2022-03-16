@@ -3,6 +3,9 @@ import MySelect from './UI/Select/MySelect';
 import MyInput from './UI/Input/MyInput';
 import MyButton from './UI/Button/MyButton';
 import classes from '../Styles/Exchanger.module.css'
+import { useTodayChange } from '../Hooks/useTodayChange';
+import Chart from './Diagram';
+
 
 const Exchanger = ({currencyList}) => {
     const [currency, setCurrency] = useState({
@@ -14,25 +17,31 @@ const Exchanger = ({currencyList}) => {
         rightInputActive: false
     })
     const [state, setState] = useState({
-        leftValue: 0,
-        rightValue: 0
+        leftValue: '',
+        rightValue: ''
     })
     useMemo(() => {
+        let currentValue = (state.leftValue * currencyList[0][currency.from]  / currencyList[0][currency.to]).toFixed(4);
+
         if(activeInput.leftInputActive && currency.from && currency.to){
-            return setState({...state, rightValue: (state.leftValue * currencyList[currency.from]  / currencyList[currency.to]).toFixed(4)})
+            return setState({...state, rightValue: currentValue})
         }else {
             return
         }
     }, [currency, state.leftValue])
 
     useMemo(() => {
+        let currentValue = (currencyList[0][currency.to] * state.rightValue  / currencyList[0][currency.from]).toFixed(4);
+
         if(activeInput.rightInputActive && currency.from && currency.to){
-            return setState({...state, leftValue: (currencyList[currency.to] * state.rightValue  / currencyList[currency.from]).toFixed(4)})
+            return setState({...state, leftValue: currentValue})
         }
         else {
             return
         }
     }, [currency, state.rightValue])
+
+    const todayChange = useTodayChange(currencyList, currency);
 
     const swapCurrencies = () => {
         let currencyFrom = currency.from;
@@ -46,7 +55,7 @@ const Exchanger = ({currencyList}) => {
                 <div className={classes.SelectBlock}>
                   <span>From</span>
                   <MySelect
-                  currencyList={currencyList}
+                  currencyList={currencyList[0]}
                   value={currency.from ? currency.from :  'Select a currency'}
                   onChange={(e) => setCurrency({...currency, from: e.target.value})}
                   />
@@ -54,7 +63,7 @@ const Exchanger = ({currencyList}) => {
                 <MyInput 
                 onClick={() => setActiveInput({...activeInput, rightInputActive: false, leftInputActive: true})}
                 value={state.leftValue}
-                onChange={e => setState({...state, leftValue: /[a-z]/.test(e.target.value) ? 0 : e.target.value})}
+                onChange={e => setState({...state, leftValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
                 />
                 <MyButton onClick={swapCurrencies}>SWAP</MyButton>
               </div>
@@ -62,7 +71,7 @@ const Exchanger = ({currencyList}) => {
                 <div className={classes.SelectBlock}>
                   <span>To</span>
                   <MySelect
-                  currencyList={currencyList}
+                  currencyList={currencyList[0]}
                   value={currency.to ? currency.to :  'Select a currency'}  
                   onChange={(e) => setCurrency({...currency, to: e.target.value})}
                   />
@@ -70,19 +79,28 @@ const Exchanger = ({currencyList}) => {
                 <MyInput
                 onClick={() => setActiveInput({...activeInput, rightInputActive: true, leftInputActive: false})}
                 value={state.rightValue}
-                onChange={e => setState({...state, rightValue: /[a-z]/.test(e.target.value) ? 0 : e.target.value})}
+                onChange={e => setState({...state, rightValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
                 />
                 <div className={classes.InfoBlock}>
                     <div className={classes.InfoBlock_CurrentRate}>
-                        <span>Current Rate</span>
-                        <span>{currency.from && currency.to && (currencyList[currency.from] / currencyList[currency.to]).toFixed(4)}</span>
+                        <span style={{opacity: '0.5'}}>Current Rate</span>
+                        <span>{currency.from && currency.to && (currencyList[0][currency.from] / currencyList[0][currency.to]).toFixed(4)}</span>
                     </div>
-                    <div>
-
+                    <div className={classes.InfoBlock_TodayChange}>
+                        <span style={{opacity: '0.5'}}>Today's change</span>
+                        <span style={todayChange >=1 ? {color: 'green'} : {color: 'red'}}>
+                            {currency.from && currency.to && todayChange >=1 && <span>&#9650;</span>}
+                            {currency.from && currency.to && todayChange < 1 && <span>&#9660;</span>}
+                            {currency.from && currency.to && todayChange}
+                        </span>
                     </div>
                 </div> 
               </div>
             </div>
+            <div className={classes.Diagram}>
+                <Chart currencyList={currencyList} currency={currency}/>
+            </div>
+            
       </div>
     )
 }
