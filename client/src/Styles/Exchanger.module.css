@@ -1,0 +1,30 @@
+.Exchanger {
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.MainBlock {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+.LeftBlock,
+.RightBlock {
+  width: 300px;
+}
+.SelectBlock {
+  display: grid;
+}
+.SelectBlock span {
+  opacity: 0.5;
+}
+.InfoBlock {
+  margin-top: 40px;
+}
+.InfoBlock_CurrentRate {
+  display: flex;
+  flex-direction: column;
+}

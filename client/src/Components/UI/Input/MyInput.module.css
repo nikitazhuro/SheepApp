@@ -1,0 +1,8 @@
+.MyInput {
+  border: none;
+  margin-top: 40px;
+  width: 90%;
+  border-bottom: 1px solid black;
+  font-size: 68px;
+  outline: none;
+}
