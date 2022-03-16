@@ -17,12 +17,11 @@ function App() {
       RUB: 0
     }
   }, [])
-  console.log(123)
 
   useEffect( async () => {
     try {
       await getCurrencyData().then((data) => {
-        data.forEach((elem) => {
+        data.todayData.forEach((elem) => {
           if(elem.Cur_Abbreviation in currencyList){
             if(elem.Cur_Abbreviation == 'PLN'){
               currencyList[elem.Cur_Abbreviation] = elem.Cur_OfficialRate / 10
