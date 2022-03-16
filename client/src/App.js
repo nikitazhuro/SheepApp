@@ -33,7 +33,11 @@ function App() {
   }, [])
 
   if(isLoading){
-    return <MyLoader/>
+    return (
+      <div className={classes.App}>
+        <MyLoader/>
+      </div>
+    )
   }
   return (
     <div className={classes.App}>
