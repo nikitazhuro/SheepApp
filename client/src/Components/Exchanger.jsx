@@ -5,11 +5,10 @@ import MyButton from './UI/Button/MyButton';
 import classes from '../Styles/Exchanger.module.css'
 import { useTodayChange } from '../Hooks/useTodayChange';
 import Chart from './Diagram';
-import {observer} from 'mobx-react-lite'
-import { observable } from 'mobx';
 
 
-const Exchanger = observer (({currencyList}) => {
+
+const Exchanger = ({currencyList}) => {
     const currencySimbol = useMemo(() => {
         return {
             AMD: '֏',AUD: '$',BGN: '$',CAD: '$',CHF: '$',CNY: '$',CZK: '$',DKK: '$',EUR: '€',GBP: '$',IRR: '$',
@@ -17,10 +16,10 @@ const Exchanger = observer (({currencyList}) => {
             SGD: '$',TRY: '$',UAH: '¥',USD: '$',XDR: '$'
         }
     }, [])
-    const [currency, setCurrency] = useState(observable({
+    const [currency, setCurrency] = useState({
         from: '',
         to: ''
-    }));
+    });
     const [activeInput, setActiveInput] = useState({
         leftInputActive: false,
         rightInputActive: false
@@ -88,6 +87,7 @@ const Exchanger = observer (({currencyList}) => {
 
     const changeLeftSelect = (e) => {
         setCurrency({...currency, from: e.target.value})
+
         if(/[֏€$₤₴¥₽]/.test(state.leftValue[0])){
             setState({...state, 
                 leftValue: currencySimbol[e.target.value] + state.leftValue.split('').splice(1).join('')
@@ -100,6 +100,7 @@ const Exchanger = observer (({currencyList}) => {
     }
     const changeRightSelect = (e) => {
         setCurrency({...currency, to: e.target.value})
+
         if(/[֏€$₤₴¥₽]/.test(state.rightValue[0])){
             setState({...state, 
                 rightValue: currencySimbol[e.target.value] + state.rightValue.split('').splice(1).join('')
@@ -172,5 +173,5 @@ const Exchanger = observer (({currencyList}) => {
             </div> 
       </div>
     )
-})
+}
 export default Exchanger;
