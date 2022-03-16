@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -12,8 +12,6 @@ import { useCreateDiagram } from "../Hooks/useCreateADiagram";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 const Chart = ({currencyList, currency}) => {
-
-
   const diagramCreator = useCreateDiagram(currencyList, currency)
 
   return (

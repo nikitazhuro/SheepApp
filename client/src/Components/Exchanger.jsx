@@ -20,6 +20,7 @@ const Exchanger = ({currencyList}) => {
         leftValue: '',
         rightValue: ''
     })
+
     useMemo(() => {
         let currentValue = (state.leftValue * currencyList[0][currency.from]  / currencyList[0][currency.to]).toFixed(4);
 
@@ -47,9 +48,12 @@ const Exchanger = ({currencyList}) => {
         let currencyFrom = currency.from;
         setCurrency({...currency, from: currency.to, to: currencyFrom})
     }
+
     return (
         <div className={classes.Exchanger}>
-            <h1>Exchange money</h1>
+            <div>
+                <h1>Exchange money</h1>
+            </div>
             <div className={classes.MainBlock}>
               <div className={classes.LeftBlock}>
                 <div className={classes.SelectBlock}>
@@ -61,9 +65,9 @@ const Exchanger = ({currencyList}) => {
                   />
                 </div>
                 <MyInput 
-                onClick={() => setActiveInput({...activeInput, rightInputActive: false, leftInputActive: true})}
-                value={state.leftValue}
-                onChange={e => setState({...state, leftValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
+                  onClick={() => setActiveInput({...activeInput, rightInputActive: false, leftInputActive: true})}
+                  value={state.leftValue}
+                  onChange={e => setState({...state, leftValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
                 />
               </div>
               <div className={classes.RightBlock}>
@@ -76,9 +80,9 @@ const Exchanger = ({currencyList}) => {
                   />
                 </div>
                 <MyInput
-                onClick={() => setActiveInput({...activeInput, rightInputActive: true, leftInputActive: false})}
-                value={state.rightValue}
-                onChange={e => setState({...state, rightValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
+                  onClick={() => setActiveInput({...activeInput, rightInputActive: true, leftInputActive: false})}
+                  value={state.rightValue}
+                  onChange={e => setState({...state, rightValue: /[^.0-9]+/iu.test(e.target.value) ? state.leftValue : e.target.value})}
                 />
               </div>
             </div>
@@ -87,25 +91,24 @@ const Exchanger = ({currencyList}) => {
                     <MyButton onClick={swapCurrencies}>SWAP</MyButton>
                 </div>
                 <div className={classes.InfoBlock}>
-                        <div className={classes.InfoBlock_CurrentRate}>
-                            <span style={{opacity: '0.5'}}>Current Rate</span>
-                            <span>{currency.from && currency.to && (currencyList[0][currency.from] / currencyList[0][currency.to]).toFixed(4)}</span>
-                        </div>
-                        <div className={classes.InfoBlock_TodayChange}>
-                            <span style={{opacity: '0.5'}}>Today's change</span>
-                            <span style={changeValue >=0 ? {color: 'green'} : {color: 'red'}}>
-                                {currency.from && currency.to && changeValue >=0 && <span>&#9650;</span>}
-                                {currency.from && currency.to && changeValue < 0 && <span>&#9660;</span>}
-                                {currency.from && currency.to && changeValue}
-                                {currency.from && currency.to && <span> ({changePersent}%)</span>}
-                            </span>
-                        </div>
-                    </div> 
-                </div>
+                    <div className={classes.InfoBlock_CurrentRate}>
+                        <span style={{opacity: '0.5'}}>Current Rate</span>
+                        <span>{currency.from && currency.to && (currencyList[0][currency.from] / currencyList[0][currency.to]).toFixed(4)}</span>
+                    </div>
+                    <div className={classes.InfoBlock_TodayChange}>
+                        <span style={{opacity: '0.5'}}>Today's change</span>
+                        <span style={changeValue >=0 ? {color: 'green'} : {color: 'red'}}>
+                            {currency.from && currency.to && changeValue >=0 && <span>&#9650;</span>}
+                            {currency.from && currency.to && changeValue < 0 && <span>&#9660;</span>}
+                            {currency.from && currency.to && changeValue}
+                            {currency.from && currency.to && <span> ({changePersent}%)</span>}
+                        </span>
+                    </div>
+                </div> 
+            </div>
             <div className={classes.Diagram}>
                 {currency.from && currency.to && <Chart currencyList={currencyList} currency={currency}/>}
-            </div>
-            
+            </div> 
       </div>
     )
 }

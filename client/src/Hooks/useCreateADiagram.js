@@ -11,8 +11,6 @@ export function useCreateCurrencyByDate (currencyList ,currency) {
     return dateArray
 }
 
-
-
 export function useCreateLeftCurrencyValue (currencyList ,currency) {
     const leftArray = useMemo(() => {
         let leftArr = []

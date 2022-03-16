@@ -1,6 +1,6 @@
 const Router = require('express');
-const dataController = require('../Controller/index')
 const router = new Router();
+const dataController = require('../Controller/index')
 
 router.get('/getData', dataController.getCurrencyData);
 

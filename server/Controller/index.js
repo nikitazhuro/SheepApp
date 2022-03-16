@@ -3,12 +3,14 @@ const service = require('../Service/index')
 class DataController {
     async getCurrencyData (req, res) {
         try {
-            let arr = []
+            let arr = [];
+
             const getTodayData = await service.getTodayData()
 
             for(let i=0; i< getTodayData.length; i++){
                 arr.push(getTodayData[i].Cur_ID)
             }
+            
             const getPrevData = await service.getPrevData()
             const getDynamicData = await service.getDynamicData(arr)
             
