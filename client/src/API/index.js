@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const $host = axios.create({
-    baseURL: 'http://localhost:5000'
-})
+const $host = axios.create({
+  baseURL: 'http://localhost:5000',
+});
+
+export default $host;

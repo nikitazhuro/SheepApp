@@ -1,11 +1,12 @@
-export default function calculatePrevCurrency (data, currencyList) {
-  let testObj = {}
-    data.prevData.forEach((elem) => {
-        let currencyName = elem.Cur_Abbreviation;
-        let currencyValue = elem.Cur_OfficialRate;
+export default function calculatePrevCurrency(data, currencyList) {
+  const testObj = {};
 
-        testObj[currencyName] = currencyValue / elem.Cur_Scale
+  data.prevData.forEach((elem) => {
+    const currencyName = elem.Cur_Abbreviation;
+    const currencyValue = elem.Cur_OfficialRate;
 
-    })
-  return currencyList.push(testObj)
+    testObj[currencyName] = currencyValue / elem.Cur_Scale;
+  });
+
+  return currencyList.push(testObj);
 }

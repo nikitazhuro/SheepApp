@@ -1,10 +1,12 @@
-export default function calculateTodayCurrency (data, currencyList) {
-  let testObj = {}
-    data.todayData.forEach((elem) => {
-        let currencyName = elem.Cur_Abbreviation;
-        let currencyValue = elem.Cur_OfficialRate;
+export default function calculateTodayCurrency(data, currencyList) {
+  const testObj = {};
 
-        testObj[currencyName] = currencyValue / elem.Cur_Scale
-    })
-  return currencyList.push(testObj)
+  data.todayData.forEach((elem) => {
+    const currencyName = elem.Cur_Abbreviation;
+    const currencyValue = elem.Cur_OfficialRate;
+
+    testObj[currencyName] = currencyValue / elem.Cur_Scale;
+  });
+
+  return currencyList.push(testObj);
 }

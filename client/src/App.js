@@ -1,47 +1,47 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import Exchange from './Components/Exchanger'
+import React, { useEffect, useState, useMemo } from 'react';
+
 import classes from './Styles/App.module.css';
-import { getCurrencyData } from './API/dataParse';
+
+import Exchange from './Components/Exchanger';
 import MyLoader from './Components/UI/Loader/MyLoader';
+
+import getCurrencyData from './API/dataParse';
 import calculateTodayCurrency from './utils/calculateTodayCurrency';
 import calculatePrevCurrency from './utils/calculatePrevCurrency';
 import calculateDiagramData from './utils/calculateDinamicData';
 
-
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const currencyList = useMemo(() => {
-    return []
-  }, []);
+  const currencyList = useMemo(() => ([]), []);
 
-  useEffect( async () => {
+  useEffect(async () => {
     try {
       await getCurrencyData().then((data) => {
         calculateTodayCurrency(data, currencyList);
-        return data
+        return data;
       }).then((data) => {
         calculatePrevCurrency(data, currencyList);
-        return data
+        return data;
       }).then((data) => {
-        calculateDiagramData(data, currencyList)
+        calculateDiagramData(data, currencyList);
       })
-      .finally(() => setIsLoading(false))
+        .finally(() => setIsLoading(false));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }, [])
+  }, []);
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <div className={classes.App}>
-        <MyLoader/>
+        <MyLoader />
       </div>
-    )
+    );
   }
   return (
     <div className={classes.App}>
-      <Exchange currencyList={currencyList}/>
+      <Exchange currencyList={currencyList} />
     </div>
   );
 }

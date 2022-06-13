@@ -1,6 +1,9 @@
-import { $host } from ".";
+import $host from '.';
 
-export const getCurrencyData = async () => {
-    const response = await $host.get('/api/getData')
-    return response.data
-}
+const getCurrencyData = async () => {
+  const response = await $host.get('/api/getData');
+
+  return response.data;
+};
+
+export default getCurrencyData;
