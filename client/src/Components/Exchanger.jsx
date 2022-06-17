@@ -20,7 +20,7 @@ const currencySimbol = {
   DKK: 'č',
   EUR: '€',
   GBP: '£',
-  IRR: '﷼',
+  IRR: '¤',
   ISK: 'č',
   JPY: '¥',
   KGS: 'č',
@@ -103,7 +103,7 @@ function Exchanger({ currencyList }) {
           : currencySimbol[currency.to] + state.rightValue.slice(1),
       });
     }
-    if (/[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[^֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
         leftValue: /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])
@@ -114,7 +114,7 @@ function Exchanger({ currencyList }) {
           : currencySimbol[currency.to] + state.rightValue.slice(1),
       });
     }
-    if (/[֏€£$₣₤₴¥₽č¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
+    if (/[^֏€£$₣₤₴¥₽č¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
         leftValue: /[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])
