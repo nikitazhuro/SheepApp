@@ -9,37 +9,37 @@ import Chart from './Diagram';
 
 import useTodayChange from '../Hooks/useTodayChange';
 
-function Exchanger({ currencyList }) {
-  const currencySimbol = useMemo(() => ({
-    AMD: '֏',
-    AUD: '$',
-    BGN: '$',
-    CAD: '$',
-    CHF: '$',
-    CNY: '$',
-    CZK: '$',
-    DKK: '$',
-    EUR: '€',
-    GBP: '$',
-    IRR: '$',
-    ISK: '$',
-    JPY: '$',
-    KGS: '$',
-    KWD: '$',
-    KZT: '$',
-    MDL: '$',
-    NOK: '₽',
-    NZD: '$',
-    PLN: '$',
-    RUB: '₽',
-    SEK: '$',
-    SGD: '$',
-    TRY: '$',
-    UAH: '¥',
-    USD: '$',
-    XDR: '$',
-  }), []);
+const currencySimbol = {
+  AMD: '֏',
+  AUD: '$',
+  BGN: 'ł',
+  CAD: '$',
+  CHF: '₣',
+  CNY: '¥',
+  CZK: 'č',
+  DKK: 'č',
+  EUR: '€',
+  GBP: '£',
+  IRR: '﷼',
+  ISK: 'č',
+  JPY: '¥',
+  KGS: 'č',
+  KWD: 'ꝱ',
+  KZT: '₸',
+  MDL: 'ł',
+  NOK: 'č',
+  NZD: '$',
+  PLN: 'ł',
+  RUB: '₽',
+  SEK: 'č',
+  SGD: '$',
+  TRY: '₺',
+  UAH: '₴',
+  USD: '$',
+  XDR: '¤',
+};
 
+function Exchanger({ currencyList }) {
   const [currency, setCurrency] = useState({
     from: '',
     to: '',
@@ -55,7 +55,7 @@ function Exchanger({ currencyList }) {
 
   useMemo(() => {
     let currentValue;
-    if (/[֏€$₤₴¥₽]/.test(state.leftValue[0])) {
+    if (/[֏€£$₣₤₴¥₽¤₺₸č﷼ꝱł]/.test(state.leftValue[0])) {
       currentValue = ((state.leftValue.slice(1) * currencyList[0][currency.from])
         / currencyList[0][currency.to]).toFixed(4);
     } else {
@@ -71,7 +71,7 @@ function Exchanger({ currencyList }) {
 
   useMemo(() => {
     let currentValue;
-    if (/[֏€$₤₴¥₽]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴¥₽č¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       currentValue = ((currencyList[0][currency.to] * state.rightValue.slice(1))
         / currencyList[0][currency.from]).toFixed(4);
     } else {
@@ -92,35 +92,35 @@ function Exchanger({ currencyList }) {
 
     setCurrency({ ...currency, from: currency.to, to: currencyFrom });
 
-    if (/[֏€$₤₴¥₽]/.test(state.leftValue[0]) && /[֏€$₤₴¥₽]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴¥₽č¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
-        leftValue: /[֏€$₤₴¥₽]/.test(state.rightValue[0])
+        leftValue: /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])
           ? currencySimbol[currency.to] + state.leftValue.slice(1)
           : currencySimbol[currency.from] + state.leftValue.slice(1),
-        rightValue: /[֏€$₤₴¥₽]/.test(state.leftValue[0])
+        rightValue: /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.leftValue[0])
           ? currencySimbol[currency.from] + state.rightValue.slice(1)
           : currencySimbol[currency.to] + state.rightValue.slice(1),
       });
     }
-    if (/[֏€$₤₴¥₽]/.test(state.leftValue[0]) && /[^֏€$₤₴¥₽]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
-        leftValue: /[֏€$₤₴¥₽]/.test(state.rightValue[0])
+        leftValue: /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])
           ? currencySimbol[currency.to] + state.leftValue.slice(1)
           : currencySimbol[currency.from] + state.leftValue.slice(1),
-        rightValue: /[֏€$₤₴¥₽]/.test(state.leftValue[0])
+        rightValue: /[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.leftValue[0])
           ? currencySimbol[currency.from] + state.rightValue
           : currencySimbol[currency.to] + state.rightValue.slice(1),
       });
     }
-    if (/[^֏€$₤₴¥₽]/.test(state.leftValue[0]) && /[֏€$₤₴¥₽]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴¥₽č¤₺₸﷼ꝱł]/.test(state.leftValue[0]) && /[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
-        leftValue: /[֏€$₤₴¥₽]/.test(state.rightValue[0])
+        leftValue: /[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])
           ? currencySimbol[currency.to] + state.leftValue
           : currencySimbol[currency.from] + state.leftValue.slice(1),
-        rightValue: /[֏€$₤₴¥₽]/.test(state.leftValue[0])
+        rightValue: /[֏€£$₣₤č₴¥₽¤₺₸﷼ꝱł]/.test(state.leftValue[0])
           ? currencySimbol[currency.to] + state.rightValue.slice(1)
           : currencySimbol[currency.to] + state.rightValue.slice(1),
       });
@@ -130,7 +130,7 @@ function Exchanger({ currencyList }) {
   const changeLeftSelect = (e) => {
     setCurrency({ ...currency, from: e.target.value });
 
-    if (/[֏€$₤₴¥₽]/.test(state.leftValue[0])) {
+    if (/[֏€£$₣₤₴¥č₽¤₺₸﷼ꝱł]/.test(state.leftValue[0])) {
       setState({
         ...state,
         leftValue: currencySimbol[e.target.value] + state.leftValue.split('').splice(1).join(''),
@@ -146,7 +146,7 @@ function Exchanger({ currencyList }) {
   const changeRightSelect = (e) => {
     setCurrency({ ...currency, to: e.target.value });
 
-    if (/[֏€$₤₴¥₽]/.test(state.rightValue[0])) {
+    if (/[֏€£$₣₤₴č¥₽¤₺₸﷼ꝱł]/.test(state.rightValue[0])) {
       setState({
         ...state,
         rightValue: currencySimbol[e.target.value] + state.rightValue.split('').splice(1).join(''),
@@ -183,7 +183,7 @@ function Exchanger({ currencyList }) {
             value={state.leftValue}
             onChange={(e) => setState({
               ...state,
-              leftValue: /[^.֏€$₤₴¥₽0-9]+/iu.test(e.target.value)
+              leftValue: /[^.֏€£$₣₤₴¥₽¤₺₸č﷼ꝱł0-9]+/iu.test(e.target.value)
                 ? state.leftValue
                 : e.target.value,
             })}
@@ -207,7 +207,7 @@ function Exchanger({ currencyList }) {
             value={state.rightValue}
             onChange={(e) => setState({
               ...state,
-              rightValue: /[^.֏€$₤₴¥₽0-9]+/iu.test(e.target.value)
+              rightValue: /[^.֏€£$₣₤₴¥₽¤₺₸č﷼ꝱł0-9]+/iu.test(e.target.value)
                 ? state.leftValue
                 : e.target.value,
             })}
